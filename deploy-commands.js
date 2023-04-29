@@ -4,25 +4,23 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const commands = [];
-// Grab all the command files from the commands directory 
-const foldersPath = path.join(__dirname, "commands");
-const commandFolders = fs.readdirSync(foldersPath);
 
-for (const folder of commandFolders) {
-	// Grab all the command files from the commands directory 
-	const commandsPath = path.join(foldersPath, folder);
-	const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith(".js"));
-	// Grab the SlashCommandBuilder#toJSON() output of each command's data for deployment
-	for (const file of commandFiles) {
-		const filePath = path.join(commandsPath, file);
-		const command = require(filePath);
-		if ("data" in command && "execute" in command) {
-			commands.push(command.data.toJSON());
-		} else {
-			console.log(`[ATTENZIONE] il comando che si trova a ${filePath} non coniente "data" o "execute".`);
-		}
-	}
-}
+// searching for commands
+const commandsPath = path.join(__dirname, "commands"); // helps to construct a path to commands
+const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith(".js")); // create an array of all files that ends with .js
+
+for (const file of commandFiles) {
+    const filePath = path.join(commandsPath, file); // search for the current file (command)
+    const command = require(filePath);
+
+    //set a new item in the client.Commands collection
+    if("data" in command && "execute" in command) {
+        commands.push(command.data.toJSON());    
+    } 
+    else {
+        console.log(`[ATTENZIONE] il comando che si trova a ${filePath} non coniente "data" o "execute".`);
+    }
+} 
 
 // Construct and prepare an instance of the REST module
 const rest = new REST().setToken(token);
