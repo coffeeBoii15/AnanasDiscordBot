@@ -6,7 +6,9 @@ const { token } = require("./config.json");
 
 // new client instance
 const client = new Client( { intents: [GatewayIntentBits.Guilds] } );
-client.commands = new Collection(); // attaching Commands proprety to client object
+client.commands = new Collection();
+client.cooldowns = new Collection();
+
 
 // searching for commands
 const commandsPath = path.join(__dirname, "commands"); // helps to construct a path to commands
@@ -24,6 +26,20 @@ for (const file of commandFiles) {
         console.log(`[ATTENZIONE] il comando che si trova a ${filePath} non coniente "data" o "execute".`);
     }
 } 
+
+// searching for events
+const eventsPath = path.join(__dirname, 'events');
+const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
+
+for (const file of eventFiles) {
+	const filePath = path.join(eventsPath, file);
+	const event = require(filePath);
+	if (event.once) {
+		client.once(event.name, (...args) => event.execute(...args));
+	} else {
+		client.on(event.name, (...args) => event.execute(...args));
+	}
+}
 
 // login discord
 client.login(token);
