@@ -7,7 +7,7 @@ module.exports = {
         .setDescription("Vuoi sapere come sarà il tuo futuro?"),
 
     async execute(interaction) {
-        let randomNumber = Math.floor(Math.random() * 3);
+        let randomNumber = Math.floor(Math.random() * 4);
 
         switch(randomNumber) {
             case 0:
@@ -23,7 +23,7 @@ module.exports = {
                 break;
 
             case 3:
-                await interaction.reply("Vedo...vedo un futuro orribile. In questo futuro, viene aggiunto il parmigiano alla pasta alle vongole.");
+                await interaction.reply("Vedo...vedo un futuro orribile. In questo futuro, viene aggiunto il parmigiano nella pasta alle vongole.");
                 break;
         };
     },
