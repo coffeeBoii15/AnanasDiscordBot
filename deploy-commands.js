@@ -1,3 +1,4 @@
+// DEPLOY SLASH COMMANDS
 const { REST, Routes } = require("discord.js");
 const { clientId, guildId, token } = require("./config.json");
 const fs = require("node:fs");
@@ -13,7 +14,7 @@ for (const file of commandFiles) {
     const filePath = path.join(commandsPath, file); // search for the current file (command)
     const command = require(filePath);
 
-    //set a new item in the client.Commands collection
+    //push command to guild
     if("data" in command && "execute" in command) {
         commands.push(command.data.toJSON());    
     } 
