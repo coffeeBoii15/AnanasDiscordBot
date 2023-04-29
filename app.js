@@ -6,7 +6,7 @@ const { token } = require("./config.json");
 
 // new client instance
 const client = new Client( { intents: [GatewayIntentBits.Guilds] } );
-client.Commands = new Collection(); // attaching Commands proprety to client object
+client.commands = new Collection(); // attaching Commands proprety to client object
 
 // searching for commands
 const commandsPath = path.join(__dirname, "commands"); // helps to construct a path to commands
@@ -18,7 +18,7 @@ for (const file of commandFiles) {
 
     //set a new item in the client.Commands collection
     if("data" in command && "execute" in command) {
-        client.Commands.set(command.data.name, command);
+        client.commands.set(command.data.name, command);
     } 
     else {
         console.log(`[ATTENZIONE] il comando che si trova a ${filePath} non coniente "data" o "execute".`);
@@ -29,7 +29,7 @@ client.on(Events.InteractionCreate, async interaction => {
     if (!interaction.isChatInputCommand()) return;
 
     // if the command dosen't exist, don't execute the code
-    const command = interaction.client.Commands.get(interaction.commandName);
+    const command = interaction.client.commands.get(interaction.commandName);
     
     if (!command) {
         console.error(`Non è stato trovato alcun comando di nome ${interaction.commandName}`);
@@ -39,7 +39,7 @@ client.on(Events.InteractionCreate, async interaction => {
     try {
         await command.execute(interaction);
     }
-    
+
     catch(error) {
         if (interaction.replied || interaction.deferred) {
             interaction.followUp({ content: `E' stato riscontrato un errore nell'eseguire il comando.`, ephemeral: true });
