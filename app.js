@@ -1,7 +1,7 @@
 // require the necessary classes
 const fs = require("node:fs");
 const path = require("node:path");
-const { Client, Events, GatewayIntentBits, Collection } = require("discord.js");
+const { Client, GatewayIntentBits, Collection } = require("discord.js");
 const { token } = require("./config.json");
 
 // new client instance
@@ -24,38 +24,6 @@ for (const file of commandFiles) {
         console.log(`[ATTENZIONE] il comando che si trova a ${filePath} non coniente "data" o "execute".`);
     }
 } 
-
-client.on(Events.InteractionCreate, async interaction => {
-    if (!interaction.isChatInputCommand()) return;
-
-    // if the command dosen't exist, don't execute the code
-    const command = interaction.client.commands.get(interaction.commandName);
-    
-    if (!command) {
-        console.error(`Non è stato trovato alcun comando di nome ${interaction.commandName}`);
-        return;
-    }
-
-    try {
-        await command.execute(interaction);
-    }
-
-    catch(error) {
-        if (interaction.replied || interaction.deferred) {
-            interaction.followUp({ content: `E' stato riscontrato un errore nell'eseguire il comando.`, ephemeral: true });
-        }
-        else {
-            interaction.reply({ content: `E' stato riscontrato un errore nell'eseguire il comando.`, ephemeral: true });
-        }
-    }   
-
-    console.log(interaction);
-});
-
-// when client is ready. Call this function ONE time (once)
-client.once(Events.ClientReady, e => {
-    console.log(`${e.user.tag} si è connesso a discord!`);
-});
 
 // login discord
 client.login(token);
