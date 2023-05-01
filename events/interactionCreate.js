@@ -1,4 +1,4 @@
-const { Events } = require("discord.js");
+const { Events, Collection } = require("discord.js");
 
 module.exports = {
 
@@ -14,7 +14,7 @@ module.exports = {
             return;
         }
 
-        const { cooldowns } = client;
+        const { cooldowns } = interaction.client;
 
         if (!cooldowns.has(command.data.name)) {
         	cooldowns.set(command.data.name, new Collection());
@@ -30,12 +30,12 @@ module.exports = {
 
 	        if (now < expirationTime) {
 	        	const expiredTimestamp = Math.round(expirationTime / 1000);
-	        	return interaction.reply({ content: `Non puoi subito riusare il comando: \`${command.data.name}\`. Puoi riutilizzarlo tra: <t:${expiredTimestamp}:R>.`, ephemeral: true });
+	        	return interaction.reply({ content: `Non puoi subito riusare il comando: \`${command.data.name}\`. Lo hai utilizzato <t:${expiredTimestamp}:R>.`, ephemeral: true });
 	        }
         }
 
         timestamps.set(interaction.user.id, now);
-        setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
+        setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount); 
 
         try {
             await command.execute(interaction);
