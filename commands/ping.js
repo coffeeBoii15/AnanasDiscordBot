@@ -10,8 +10,8 @@ module.exports = {
     
     async execute(interaction) {
         // await interaction.reply({ content: "Pong segreto!", ephemeral: true });
-        await interaction.reply("Pong!");
+        await interaction.reply("Test test test!");
         await wait(3000);
-        await interaction.editReply("Ecco il tuo ping: 🏓ms");
+        await interaction.editReply("PING!");
     },
 };
