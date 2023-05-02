@@ -49,7 +49,7 @@ module.exports = {
             }
         }   
 
-        console.log(interaction);
+        console.log(interaction); // DEBUG
     },
 
 }

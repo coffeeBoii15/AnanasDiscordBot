@@ -7,7 +7,7 @@ module.exports = {
         .setDescription("Stampa delle informazioni riguardo il server discord."),
 
     async execute(interaction) {
-        await interaction.reply(`Nome del server: ${interaction.guild.name}. Membri nel gruppo discord: ${interaction.guild.memberCount}`);
+        await interaction.reply(`Nome del server: ${interaction.guild.name}. Numero dei membri nel server: ${interaction.guild.memberCount}`);
     },
 
 };
